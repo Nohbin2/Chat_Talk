@@ -26,7 +26,7 @@ public class FcmService {
 
         // FirebaseMessaging을 사용하여 메시지 전송
         String response = FirebaseMessaging.getInstance().send(message);
-        System.out.println("Successfully sent message: " + response);
+        System.out.println("Successfully message: " + response);
     }
 }
 
