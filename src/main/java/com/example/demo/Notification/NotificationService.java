@@ -1,5 +1,4 @@
-package com.example.demo.Fcm;
-
+package com.example.demo.Notification;
 import com.example.demo.DB.User;
 import com.example.demo.DB.UserRepository;
 import com.google.firebase.messaging.FirebaseMessaging;
@@ -9,21 +8,13 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 @Service
-public class FcmService {
-
+public class NotificationService {
     @Autowired
     private UserRepository userRepository;
-
-    public void saveFcmToken(String phoneNumber, String fcmToken) {
-        // 사용자 엔티티 생성 및 저장
-        User user = new User(phoneNumber, fcmToken);
-        userRepository.save(user);
-    }
-
+    // 메서드 정의
     public void sendNotification(String phoneNumber, String title, String body) throws Exception {
-        // 사용자 전화번호를 통해 FCM 토큰을 조회
+        // FCM 토큰을 가져오는 로직
         User user = userRepository.findById(phoneNumber).orElseThrow(() -> new Exception("User not found"));
-
         String token = user.getFcmToken();
 
         // Notification 객체를 Builder를 통해 생성
@@ -34,7 +25,7 @@ public class FcmService {
 
         // Message 객체에 Notification 객체를 설정
         Message message = Message.builder()
-                .setToken(token)
+                .setToken(token) // 실제 FCM 토큰을 사용해야 합니다.
                 .setNotification(notification)
                 .build();
 
