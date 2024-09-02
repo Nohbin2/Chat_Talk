@@ -8,6 +8,8 @@ import com.google.firebase.messaging.Notification;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.Optional;
+
 @Service
 public class FcmService {
 
@@ -16,13 +18,21 @@ public class FcmService {
 
     public void saveFcmToken(String phoneNumber, String fcmToken) {
         // 사용자 엔티티 생성 및 저장
-        User user = new User(phoneNumber, fcmToken);
-        userRepository.save(user);
+        Optional<User> existingUser = userRepository.findByPhoneNumber(phoneNumber);
+        if (existingUser.isPresent()) {
+            User user = existingUser.get();
+            user.setFcmToken(fcmToken);
+            userRepository.save(user);
+        } else {
+
+            User user = new User(phoneNumber, fcmToken);
+            userRepository.save(user);
+        }
     }
 
     public void sendNotification(String phoneNumber, String title, String body) throws Exception {
         // 사용자 전화번호를 통해 FCM 토큰을 조회
-        User user = userRepository.findById(phoneNumber).orElseThrow(() -> new Exception("User not found"));
+        User user = userRepository.findByPhoneNumber(phoneNumber).orElseThrow(() -> new Exception("User not found"));
 
         String token = user.getFcmToken();
 
