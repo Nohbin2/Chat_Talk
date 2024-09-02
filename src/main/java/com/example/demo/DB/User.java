@@ -1,14 +1,15 @@
 package com.example.demo.DB;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.Id;
-import jakarta.persistence.Table;
+import jakarta.persistence.*;
 
 @Entity
 @Table(name = "users")
 public class User {
 
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
+    @Column(nullable =false, unique = true)
     private String phoneNumber; // 전화번호를 기본 키로 사용
 
     private String fcmToken; // FCM 토큰
@@ -24,6 +25,9 @@ public class User {
     }
 
     // Getters and Setters
+    public Long getId(){
+        return id;
+    }
     public String getPhoneNumber() {
         return phoneNumber;
     }
