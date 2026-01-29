@@ -9,9 +9,9 @@ Chat Talk는 카카오 로그인을 통해 사용자 인증을 처리하고, 실
 
 🛠 기술 스택
 
-Language: (프로젝트 기반 – Java / Node.js 등 명시된 언어)
+Language: Java
 
-Backend: (Spring Boot / Express 등 백엔드 프레임워크)
+Backend: Spring Boot / MySQL
 
 Authentication: Kakao OAuth 2.0
 
